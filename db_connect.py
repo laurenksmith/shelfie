@@ -5,8 +5,8 @@ from mysql.connector import Error
 def create_connection():  # to connect to the database on MySQL
     try:
         connection = mysql.connector.connect(  # the user would insert their credentials here in order to connect
-            host="localhost",
-            user="root",  # to use, I shall replace with my actual credentials
+            host="host",
+            user="user",  # to use, I shall replace with my actual credentials
             password="password",
             database="book_tracker"
         )
@@ -16,3 +16,9 @@ def create_connection():  # to connect to the database on MySQL
     except Error as e:  # I also want it to let me know if it hasn't worked, and why.
         print(f"Error: {e}")
         return None
+
+
+if __name__ == "__main__":
+    connection = create_connection()
+    if connection:
+        connection.close()
