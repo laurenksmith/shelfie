@@ -5,9 +5,9 @@ from mysql.connector import Error
 def create_connection():  # to connect to the database on MySQL
     try:
         connection = mysql.connector.connect(  # the user would insert their credentials here in order to connect
-            host="127.0.0.1",
-            user="root",  # to use, I shall replace with my actual credentials
-            password="Apple+91",
+            host="",
+            user="",  # to use, I shall replace with my actual credentials
+            password="",
             database="book_tracker"
         )
         if connection.is_connected():  # I want it to return a message to let me know if it has been successful
