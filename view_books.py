@@ -43,7 +43,39 @@ def search_books_by_author(connection, author_name):
         cursor.close()
 
 
-# Prompts the user to view all their saved books or books by a specific author
+# Adding a function to allow the user to delete an entry
+def delete_book_by_title(connection, title):
+    try:
+        cursor = connection.cursor()
+
+        # Step 1: Find the book
+        search_query = "SELECT id, title, author FROM books WHERE title = %s;"
+        cursor.execute(search_query, (title,))
+        book = cursor.fetchone()
+
+        if not book:
+            print(f"No book found with the title '{title}'.")
+            return
+
+        # Step 2: Ask for confirmation
+        book_id, found_title, author = book
+        confirm = input(f"Are you sure you want to delete '{found_title}' by {author}? (Y/N): ").strip().lower()
+
+        if confirm == 'y':
+            delete_query = "DELETE FROM books WHERE id = %s;"
+            cursor.execute(delete_query, (book_id,))
+            connection.commit()
+            print(f"'{found_title}' by {author} has been deleted.")
+        else:
+            print("Deletion cancelled.")
+
+    except Error as e:
+        print(f"Error: {e}")
+    finally:
+        cursor.close()
+
+
+# Prompts the user to view all their saved books or books by a specific author or delete a book.
 if __name__ == "__main__":
     connection = db_connect.create_connection()
     if connection:
@@ -73,19 +105,6 @@ if __name__ == "__main__":
                 print("Database connection closed.")
 
 
-# Adding a function to allow the user to delete an entry
-def delete_book_by_title(connection, title):
-    try:
-        cursor = connection.cursor()
-        delete_query = "DELETE FROM books WHERE title = %s;"
-        cursor.execute(delete_query, (title,))
-        connection.commit()
-        if cursor.rowcount > 0:
-            print(f"Book with the title '{title}' deleted successfully!")
-        else:
-            print(f"No book found with the title '{title}'.")
-    except Error as e:
-        print(f"Error: {e}")
-    finally:
-        cursor.close()
+
+
 
