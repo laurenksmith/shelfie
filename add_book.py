@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
+import db_connect
 
 
 # create a function in order for the user to be able to add a book to the database
@@ -23,16 +24,9 @@ def add_book(connection, title, author, genre, year_read, rating):
 
 # prompt for the user to add their book details
 if __name__ == "__main__":
-    try:
-        connection = mysql.connector.connect(
-            host="127.0.0.1",
-            user="root",
-            password="Apple+91",
-            database="book_tracker"
-        )
-        if connection.is_connected():
-            print("Successfully connected to the database.")
-
+    connection = db_connect.create_connection()
+    if connection:
+        try:
             title = input("Enter the title of your book: ").strip()
             author = input("Enter the author of your book: ").strip()
             genre = input("Enter the genre of your book: ").strip()
@@ -45,13 +39,13 @@ if __name__ == "__main__":
                 connection.close()
                 exit()
 
-            # ✅ Now calling the function!
+            #  Now calling the function!
             add_book(connection, title, author, genre, year_read, rating)
 
-    except Error as e:
-        print(f"Connection error: {e}")
+        except Error as e:
+            print(f"Connection error: {e}")
 
-    finally:
-        if connection.is_connected():
-            connection.close()
-            print("Database connection closed.")
+        finally:
+            if connection.is_connected():
+                connection.close()
+                print("Database connection closed.")

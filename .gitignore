@@ -1,0 +1,3 @@
+# to ignore my MySQL credentials file when adding to Github
+
+db_connect.py

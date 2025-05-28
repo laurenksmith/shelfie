@@ -6,7 +6,7 @@ def create_connection():  # to connect to the database on MySQL
     try:
         connection = mysql.connector.connect(  # the user would insert their credentials here in order to connect
             host="127.0.0.1",
-            user="root",  # to use, I shall replace with my actual credentials
+            user="root",
             password="Apple+91",
             database="book_tracker"
         )

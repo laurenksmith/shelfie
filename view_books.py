@@ -20,3 +20,4 @@ def view_all_books(connection):
         print(f"Error: {e}")
     finally:
         cursor.close()
+
