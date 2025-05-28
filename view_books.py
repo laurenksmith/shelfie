@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
+import db_connect
 
 
 # A function to view all books
@@ -40,3 +41,29 @@ def search_books_by_author(connection, author_name):
         print(f"Error: {e}")
     finally:
         cursor.close()
+
+
+# Prompts the user to view all their saved books or books by a specific author
+if __name__ == "__main__":
+    connection = db_connect.create_connection()
+    if connection:
+        try:
+            print("\nWhat would you like to do?")
+            print("1. View all books")
+            print("2. Search books by author")
+            choice = input("Enter your choice (1 or 2): ").strip()
+
+            if choice == '1':
+                view_all_books(connection)
+            elif choice == '2':
+                author = input("Enter the author's name to search: ").strip()
+                search_books_by_author(connection, author)
+            else:
+                print("Invalid choice.")
+
+        except Error as e:
+            print(f"Connection error: {e}")
+        finally:
+            if connection:
+                connection.close()
+                print("Database connection closed.")
