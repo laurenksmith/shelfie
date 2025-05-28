@@ -21,3 +21,22 @@ def view_all_books(connection):
     finally:
         cursor.close()
 
+
+# search for books by author name
+def search_books_by_author(connection, author_name):
+    try:
+        cursor = connection.cursor()
+        query = "SELECT * FROM books WHERE author LIKE %s;"
+        cursor.execute(query, ('%' + author_name + '%',))
+        rows = cursor.fetchall()
+
+        if rows:
+            print(f"\nBooks by '{author_name}':")
+            for row in rows:
+                print(row)
+        else:
+            print(f"No books found by '{author_name}'.")
+    except Error as e:
+        print(f"Error: {e}")
+    finally:
+        cursor.close()

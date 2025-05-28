@@ -22,3 +22,4 @@ if __name__ == "__main__":
     connection = create_connection()
     if connection:
         connection.close()
+
